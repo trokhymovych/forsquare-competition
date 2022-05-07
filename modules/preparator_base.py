@@ -1,4 +1,7 @@
 import re
+from timeit import default_timer as timer
+from datetime import timedelta
+
 import pandas as pd
 
 TRAIN_PATH = "data/train.csv"
@@ -19,7 +22,10 @@ class BaseFeatures:
             else:
                 return 0
         
-        self.train_df["adress_number"] = self.train_df.apply(extract_number)
+        start = timer()
+        self.train_df["adress_number"] = self.train_df["address"].apply(extract_number)
+        end = timer()
+        print("adress_number was genareted by", timedelta(seconds=end-start))
 
     def prepare(self):
         self.extract_adress_number()
@@ -28,4 +34,6 @@ class BaseFeatures:
 
 if __name__ == "__main__":
     features = BaseFeatures()
+    features.prepare()
     print(features.train_df.shape)
+    print(features.train_df.columns)
