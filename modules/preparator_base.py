@@ -66,13 +66,32 @@ class BaseFeatures:
         end = timer()
         print("URL features was calculated by", timedelta(seconds=end-start))
 
+    def parse_categories(self):
+        category_count = 5
 
+        def str2list(categories: str):
+            try:
+                result = categories.split(", ")
+                return result[:category_count]
+            except:
+                dummy_list = []
+                return dummy_list
 
+        start = timer()
+        # info: https://stackoverflow.com/questions/35491274/split-a-pandas-column-of-lists-into-multiple-columns
+        self.train_df["categories_list"] = self.train_df["categories"].apply(str2list)
+        self.train_df[["cat1", "cat2", "cat3", "cat4", "cat5"]] = pd.DataFrame(
+            self.train_df["categories_list"].to_list(), index= self.train_df.index
+        )
+        # self.train_df = self.train_df.drop(columns=['categories_list'])
+        end = timer()
+        print("Categories was splited by", timedelta(seconds=end-start))
 
     def prepare(self):
         self.extract_adress_number()
         self.parse_url_domain()
         self.calc_url_features()
+        self.parse_categories()
         return self.train_df
 
 
