@@ -8,8 +8,8 @@ import pandas as pd
 TRAIN_PATH = "data/train.csv"
 
 class BaseFeatures:
-    def __init__(self, file_path: str = TRAIN_PATH) -> None:
-        self.train_df = pd.read_csv(file_path)
+    def __init__(self, df: pd.DataFrame) -> None:
+        self.train_df = df
 
     def extract_adress_number(self) -> None:
         def extract_number(adress: str) -> int:
@@ -96,7 +96,8 @@ class BaseFeatures:
 
 
 if __name__ == "__main__":
-    features = BaseFeatures()
+    df = pd.read_csv(TRAIN_PATH)
+    features = BaseFeatures(df)
     features.prepare()
     print(features.train_df.shape)
     print(features.train_df.columns)
