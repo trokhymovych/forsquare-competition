@@ -1,0 +1,4 @@
+for VARIABLE in XX TW_AE_KW_I MY MX BR BE CA TH FI ES ID IT DE SA HK IN GR KR SG GB RU PH FR JP CN TR UA CL CZ AR US AU NL
+do
+    python train.py --country=$VARIABLE
+done
